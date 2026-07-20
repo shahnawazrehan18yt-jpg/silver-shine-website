@@ -1,0 +1,8 @@
+{
+"name":"Silver Shine Beauty Salon",
+"short_name":"Silver Shine",
+"start_url":"index.html",
+"display":"standalone",
+"background_color":"#000000",
+"theme_color":"#D4AF37"
+}

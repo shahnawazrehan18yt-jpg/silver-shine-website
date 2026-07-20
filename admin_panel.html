@@ -1,0 +1,47 @@
+
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>Admin Panel</title>
+<style>
+body{background:#000;color:#fff;font-family:Arial;padding:20px}
+input,button{padding:10px;margin:5px}
+.gallery img{width:150px;height:150px;object-fit:cover;margin:5px;border:2px solid gold}
+</style></head><body>
+<h1>Silver Shine Admin</h1>
+<div id="login">
+<input type="password" id="pass" placeholder="Admin Password">
+<button onclick="login()">Login</button>
+</div>
+<div id="panel" style="display:none">
+<input type="file" id="files" multiple>
+<div id="drop" style="border:2px dashed gold;padding:30px;margin:10px 0">Drag & Drop Images Here</div>
+<div class="gallery" id="gallery"></div>
+</div>
+<script>
+const PASSWORD="1234";
+function login(){
+ if(document.getElementById('pass').value===PASSWORD){
+   document.getElementById('login').style.display='none';
+   document.getElementById('panel').style.display='block';
+   load();
+ } else alert('Wrong Password');
+}
+function save(img){let a=JSON.parse(localStorage.ss||'[]');a.push(img);localStorage.ss=JSON.stringify(a);load();}
+function load(){
+ let g=document.getElementById('gallery');g.innerHTML='';
+ let a=JSON.parse(localStorage.ss||'[]');
+ a.forEach((s,i)=>{
+  let d=document.createElement('div');
+  d.innerHTML='<img src="'+s+'"><br><button onclick="del('+i+')">Delete</button>';
+  g.appendChild(d);
+ });
+}
+function del(i){let a=JSON.parse(localStorage.ss||'[]');a.splice(i,1);localStorage.ss=JSON.stringify(a);load();}
+document.getElementById('files').onchange=e=>{
+ [...e.target.files].forEach(f=>{let r=new FileReader();r.onload=()=>save(r.result);r.readAsDataURL(f);});
+};
+drop.ondragover=e=>e.preventDefault();
+drop.ondrop=e=>{
+ e.preventDefault();
+ [...e.dataTransfer.files].forEach(f=>{let r=new FileReader();r.onload=()=>save(r.result);r.readAsDataURL(f);});
+};
+</script></body></html>
